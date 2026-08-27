@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Río de Janeiro 2027 · Viaje Grupal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap');
+
+    :root {
+      --verde:        #1A6B3A;
+      --verde-med:    #2E8B57;
+      --verde-claro:  #D4EDDA;
+      --amarillo:     #F5C800;
+      --amarillo-suave: #FFFBEA;
+      --azul:         #1B4F8A;
+      --azul-claro:   #EAF1FB;
+      --azul-medio:   #2E6FC1;
+      --arena:        #F6F2EB;
+      --gris:         #6C757D;
+      --gris-claro:   #E9E6E0;
+      --blanco:       #FFFFFF;
+      --texto:        #1C1C1C;
+      --sombra:       0 4px 24px rgba(0,0,0,0.08);
+      --sombra-card:  0 2px 12px rgba(0,0,0,0.07);
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Inter',sans-serif; background:var(--arena); color:var(--texto); line-height:1.6; }
+
+    .hero { background:linear-gradient(135deg,#0D3B22 0%,#1B4F8A 60%,#0D2E5F 100%); color:#fff; padding:64px 40px 52px; position:relative; overflow:hidden; }
+    .orb1 { position:absolute; top:-80px; right:-100px; width:420px; height:420px; border-radius:50%; background:var(--amarillo); opacity:.10; }
+    .orb2 { position:absolute; bottom:-60px; left:-80px; width:300px; height:300px; border-radius:50%; background:var(--verde-med); opacity:.15; }
+    .orb3 { position:absolute; top:40%; right:15%; width:180px; height:180px; border-radius:50%; background:var(--azul-medio); opacity:.18; }
+    .hero-inner { position:relative; z-index:1; max-width:980px; margin:0 auto; }
+    .hero-eyebrow { font-family:'Bebas Neue',sans-serif; letter-spacing:5px; font-size:13px; color:var(--amarillo); text-transform:uppercase; margin-bottom:10px; }
+    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.6rem,5.5vw,4.6rem); font-weight:900; line-height:1.03; margin-bottom:20px; }
+    .hero h1 em { color:var(--amarillo); font-style:italic; }
+    .hero-badges { display:flex; flex-wrap:wrap; gap:9px; margin-bottom:30px; }
+    .badge { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22); border-radius:20px; padding:5px 14px; font-size:12.5px; font-weight:500; }
+    .flights-strip { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .fc { background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.20); border-radius:12px; padding:16px 20px; }
+    .fc-label { font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--amarillo); margin-bottom:4px; font-weight:700; }
+    .fc-route { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; }
+    .fc-time { font-size:13px; opacity:.80; margin-top:2px; }
+
+    .main { max-width:980px; margin:0 auto; padding:44px 20px 70px; }
+
+    .package-box { background:var(--amarillo-suave); border-left:5px solid var(--amarillo); border-radius:12px; padding:22px 26px; margin-bottom:40px; }
+    .package-box h3 { font-family:'Playfair Display',serif; font-size:17px; color:var(--azul); margin-bottom:13px; }
+    .pkg-grid { display:flex; flex-wrap:wrap; gap:8px; }
+    .pkg-item { background:#fff; border:1px solid #E0D89A; border-radius:20px; padding:5px 14px; font-size:13px; font-weight:600; color:var(--verde); }
+
+    .section-title { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--azul); margin-bottom:22px; padding-bottom:9px; border-bottom:3px solid var(--amarillo); display:inline-block; }
+
+    .route-cluster { background:var(--azul-claro); border:1.5px solid #BDD4F0; border-radius:10px; padding:13px 18px; margin-bottom:20px; font-size:13.5px; color:var(--azul); }
+    .route-cluster strong { font-weight:700; }
+
+    .days-grid { display:flex; flex-direction:column; gap:24px; margin-bottom:48px; }
+    .day-card { background:#fff; border-radius:18px; overflow:hidden; box-shadow:var(--sombra); }
+    .day-header { display:flex; align-items:center; gap:16px; padding:20px 26px; color:#fff; }
+    .dh-verde  { background:linear-gradient(90deg,#0D3B22,#2E8B57); }
+    .dh-azul   { background:linear-gradient(90deg,#1B4F8A,#2E6FC1); }
+    .dh-teal   { background:linear-gradient(90deg,#0E5B5B,#1A8080); }
+    .dh-amber  { background:linear-gradient(90deg,#7A4F00,#C28B00); }
+    .dh-slate  { background:linear-gradient(90deg,#3B4A6B,#5C6F9A); }
+    .day-num { font-family:'Bebas Neue',sans-serif; font-size:3.2rem; line-height:1; color:var(--amarillo); min-width:54px; text-align:center; }
+    .day-info h2 { font-family:'Playfair Display',serif; font-size:1.22rem; font-weight:700; line-height:1.25; }
+    .day-info .day-date { font-size:11.5px; opacity:.80; letter-spacing:1px; text-transform:uppercase; margin-top:3px; }
+    .day-body { padding:22px 26px; }
+
+    .activity { display:grid; grid-template-columns:72px 1fr; gap:16px; padding:18px 0; border-bottom:1px solid #F0ECE5; }
+    .activity:last-child { border-bottom:none; padding-bottom:0; }
+    .act-time { font-size:11.5px; font-weight:700; color:var(--gris); letter-spacing:.4px; padding-top:3px; text-align:right; white-space:nowrap; line-height:1.3; }
+    .act-body { display:flex; flex-direction:column; gap:6px; }
+    .act-top-row { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .act-name { font-weight:700; font-size:15px; color:var(--texto); line-height:1.25; flex:1; min-width:200px; }
+
+    /* Botón fotos — solo para lugares turísticos, no restaurantes */
+    .btn-foto {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:5px 12px; border-radius:20px; border:none; cursor:pointer;
+      font-family:'Inter',sans-serif; font-size:11.5px; font-weight:600;
+      text-decoration:none; white-space:nowrap;
+      background:linear-gradient(135deg,#1B4F8A,#2E6FC1);
+      color:#fff; box-shadow:0 2px 8px rgba(27,79,138,.25);
+      transition:all .18s ease; flex-shrink:0;
+    }
+    .btn-foto:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(27,79,138,.35); }
+    .btn-foto svg { width:13px; height:13px; fill:currentColor; flex-shrink:0; }
+
+    .act-price { display:inline-block; font-size:12px; font-weight:700; border-radius:5px; padding:3px 10px; }
+    .ap-gratis { color:#0A6F3E; background:#C8EED8; }
+    .ap-cost   { color:#1B4F8A; background:#DAE8FB; }
+    .ap-pend   { color:#7A5500; background:#FFF0C0; }
+
+    .act-note { font-size:13px; color:var(--gris); line-height:1.55; }
+
+    .tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.5px; border-radius:4px; padding:2px 8px; margin-right:4px; margin-bottom:4px; text-transform:uppercase; }
+    .tag-conf  { background:#D4EDDA; color:#155724; }
+    .tag-log   { background:var(--azul-claro); color:var(--azul); }
+    .tag-libre { background:#FFF3CD; color:#856404; }
+    .tag-pend  { background:#F8D7DA; color:#721C24; }
+    .tag-alert { background:#FFE0CC; color:#7A2E00; }
+
+    .day-note { margin-top:18px; background:var(--azul-claro); border-radius:10px; padding:14px 18px; font-size:13px; color:var(--azul); border-left:4px solid var(--azul-medio); line-height:1.6; }
+    .day-note strong { font-weight:700; }
+    .day-note p { margin-top:8px; }
+
+    .cost-section { margin-bottom:48px; }
+    .cost-table { background:#fff; border-radius:14px; overflow:hidden; box-shadow:var(--sombra); width:100%; border-collapse:collapse; }
+    .cost-table thead { background:var(--azul); color:#fff; }
+    .cost-table th { padding:13px 18px; font-size:12.5px; font-weight:700; text-align:left; letter-spacing:.5px; text-transform:uppercase; }
+    .cost-table td { padding:11px 18px; font-size:13.5px; border-bottom:1px solid var(--gris-claro); vertical-align:middle; }
+    .cost-table tr:last-child td { border-bottom:none; }
+    .cost-table tr:nth-child(even) td { background:#FAFAF7; }
+    .cost-price { font-weight:700; color:var(--azul); }
+    .cost-free  { font-weight:700; color:#0A6F3E; background:var(--verde-claro); border-radius:4px; padding:2px 8px; font-size:12px; }
+    .cost-total { font-weight:700; color:var(--verde); font-size:15px; }
+
+    .eq-section { margin-bottom:48px; }
+    .eq-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px; }
+    .eq-cat { background:#fff; border-radius:12px; padding:18px; box-shadow:var(--sombra-card); border-top:4px solid var(--verde); }
+    .eq-cat:nth-child(2) { border-top-color:var(--amarillo); }
+    .eq-cat:nth-child(3) { border-top-color:var(--azul); }
+    .eq-cat:nth-child(4) { border-top-color:#C0392B; }
+    .eq-cat:nth-child(5) { border-top-color:#8B5E00; }
+    .eq-cat h4 { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:11px; color:var(--gris); }
+    .eq-cat ul { list-style:none; }
+    .eq-cat ul li { font-size:13.5px; padding:3px 0; display:flex; align-items:flex-start; gap:7px; }
+    .eq-cat ul li::before { content:'✓'; color:var(--verde); font-weight:700; font-size:11px; margin-top:3px; flex-shrink:0; }
+
+    .pending-section { margin-bottom:48px; }
+    .pending-list { display:flex; flex-direction:column; gap:13px; }
+    .pending-item { background:#fff; border-radius:12px; padding:18px 22px; box-shadow:var(--sombra-card); border-left:4px solid var(--amarillo); display:flex; gap:14px; align-items:flex-start; }
+    .pending-icon { font-size:26px; }
+    .pending-item h4 { font-weight:700; font-size:15px; margin-bottom:4px; }
+    .pending-item p { font-size:13px; color:var(--gris); line-height:1.55; }
+
+    footer { background:var(--verde); color:rgba(255,255,255,.75); text-align:center; padding:24px 20px; font-size:12.5px; }
+    footer strong { color:var(--amarillo); }
+
+    @media(max-width:640px){
+      .flights-strip { grid-template-columns:1fr; }
+      .hero { padding:40px 18px; }
+      .day-body { padding:16px; }
+      .activity { grid-template-columns:58px 1fr; gap:10px; }
+      .act-top-row { flex-direction:column; gap:6px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="orb1"></div><div class="orb2"></div><div class="orb3"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">✈ Viaje Grupal · 8 Personas · Versión 7</p>
+    <h1>Río de <em>Janeiro</em><br>2027</h1>
+    <div class="hero-badges">
+      <span class="badge">📅 18 – 24 febrero 2027</span>
+      <span class="badge">🏨 Windsor Marapendi · Barra da Tijuca</span>
+      <span class="badge">👥 8 personas</span>
+      <span class="badge">🌙 5 noches</span>
+      <span class="badge">🌡 Verano · 35–40 °C</span>
+    </div>
+    <div class="flights-strip">
+      <div class="fc">
+        <div class="fc-label">✈ Vuelo de ida</div>
+        <div class="fc-route">FOZ → RIO</div>
+        <div class="fc-time">Jue 18/02 · Salida 11:35 · Llegada ~13:30</div>
+      </div>
+      <div class="fc">
+        <div class="fc-label">✈ Vuelo de vuelta</div>
+        <div class="fc-route">RIO → FOZ</div>
+        <div class="fc-time">Lun 23/02 · Salida 21:10 · Llegada 23:35</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="package-box">
+    <h3>📦 Incluido en el paquete</h3>
+    <div class="pkg-grid">
+      <span class="pkg-item">☕ Desayuno diario</span>
+      <span class="pkg-item">🚌 Traslado llegada (regular)</span>
+      <span class="pkg-item">🚌 Traslado salida (regular)</span>
+      <span class="pkg-item">💰 Tasas e impuestos</span>
+      <span class="pkg-item">💰 Tasa de embarque</span>
+      <span class="pkg-item">🎒 1 artículo personal</span>
+      <span class="pkg-item">🧳 Maleta de mano hasta 10 kg</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">Itinerario día a día</h2>
+  <div class="days-grid">
+
+    <!-- ─── DÍA 1 ─── -->
+    <div class="day-card">
+      <div class="day-header dh-azul">
+        <div class="day-num">01</div>
+        <div class="day-info">
+          <h2>Llegada · Barra da Tijuca · Bienvenida</h2>
+          <div class="day-date">Jueves 18 de febrero · Llegada ~13:30 hs</div>
+        </div>
+      </div>
+      <div class="day-body">
+
+        <div class="activity">
+          <div class="act-time">~13:30</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">✈ Llegada al aeropuerto · Traslado al hotel</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Aeropuerto+Galeao+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Incluido en paquete</span>
+            <div class="act-note"><span class="tag tag-log">Logística</span> Traslado regular incluido al Windsor Marapendi. 30–60 min según tráfico. Con 8 personas pueden venir en más de un vehículo — confirmar con la operadora.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">~16:00</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🏖 Primera tarde en Playa Barra da Tijuca</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Praia+Barra+da+Tijuca+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Gratis</span>
+            <div class="act-note"><span class="tag tag-libre">Libre</span> 18 km de playa frente al hotel. Tarde de adaptación al clima, sol y primer contacto con el Atlántico.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">~19:30</div>
+          <div class="act-body">
+            <div class="act-name">🍽 Cena grupal de bienvenida – Barra da Tijuca</div>
+            <span class="act-price ap-pend">~R$80–150 por persona · A definir</span>
+            <div class="act-note"><span class="tag tag-pend">Restaurante a confirmar</span> Excelentes opciones de frutos do mar en la zona. Reserva obligatoria para 8 personas.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── DÍA 2 ─── -->
+    <div class="day-card">
+      <div class="day-header dh-verde">
+        <div class="day-num">02</div>
+        <div class="day-info">
+          <h2>Mirante Dona Marta + Cristo Redentor + Pan de Azúcar + Lapa</h2>
+          <div class="day-date">Viernes 19 de febrero · Salida ~06:30 hs</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="route-cluster">
+          🗺 <strong>Ruta del día:</strong> Mirante Dona Marta (~06:45) → Cristo Redentor, Corcovado (08:00) → Pan de Azúcar (11:00) → Almuerzo Botafogo/Urca (~14:00) → Descanso en hotel → Lapa nocturna (~21:00)
+        </div>
+
+        <div class="activity">
+          <div class="act-time">06:45</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🌄 Mirante Dona Marta – Amanecer sobre Río</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Mirante+Dona+Marta+Rio+de+Janeiro+amanhecer+vista&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Gratis · Acceso libre en coche</span>
+            <div class="act-note"><span class="tag tag-log">Acceso en coche por Cosme Velho · Estacionamiento</span> 360 m de altura con vista directa al Cristo Redentor, Pan de Azúcar, Maracaná y la Bahía de Guanabara. En febrero el amanecer es ~05:40 hs — llegar a las 06:45 garantiza luz dorada con el Cristo iluminado. Solo 1–2 min a pie desde el parking. Tiempo: 45–60 min.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">08:00</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">✝ Cristo Redentor – Corcovado</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Cristo+Redentor+Corcovado+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-cost">~USD 17 por persona · Entrada confirmada</span>
+            <div class="act-note"><span class="tag tag-conf">✔ Confirmado</span> <span class="tag tag-log">Reservar en joanadarc.com.br</span> Horario oficial 08:00–17:00. Subida en tren del Corcovado desde Cosme Velho (a metros del Mirante Dona Marta — mismo acceso). <strong>Al comprar la entrada aquí se consiguen entradas al AquaRio más baratas — confirmar en boletería.</strong> Tiempo: ~2,5 horas.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">11:00</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🚠 Pan de Azúcar – Bondinho Pão de Açúcar</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Pao+de+Acucar+bondinho+teleferico+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-cost">R$ 185 · ~USD 36 por persona</span>
+            <div class="act-note"><span class="tag tag-log">Reservar en bondinho.com.br</span> Teleférico en 2 tramos hasta 396 m. Vistas 360° con el Cristo, la Bahía y las playas. Horario 08:00–19:50. Acceso Rápido sin filas: R$ 285 (~USD 56). Tiempo: 2–3 horas.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">~14:00</div>
+          <div class="act-body">
+            <div class="act-name">🍽 Almuerzo en Botafogo o Urca</div>
+            <span class="act-price ap-pend">~R$60–100 por persona · A definir</span>
+            <div class="act-note"><span class="tag tag-pend">Restaurante a confirmar</span> Frutos do mar y cocina carioca con vista al mar, 5 min del teleférico. Reservar para 8 personas.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">~16:00</div>
+          <div class="act-body">
+            <div class="act-name">💤 Descanso en el hotel</div>
+            <span class="act-price ap-gratis">—</span>
+            <div class="act-note"><span class="tag tag-libre">Libre</span> El grupo habrá madrugado y caminado mucho. Descanso obligatorio antes de la noche en Lapa.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">~21:00</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🎵 Noche de samba en Lapa</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Lapa+samba+ao+vivo+Rio+de+Janeiro+noite&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-pend">~R$30–80 consumición/cover · A confirmar</span>
+            <div class="act-note"><span class="tag tag-pend">A confirmar</span> Carioca da Gema, Rio Scenarium, Lapa 40°. Los viernes son de las mejores noches del año en Lapa. Traslado ~40 min desde Barra da Tijuca.</div>
+          </div>
+        </div>
+
+        <div class="day-note">
+          <strong>💡 Logística Día 2:</strong> El Mirante Dona Marta y la Estación del tren del Corcovado están en el mismo acceso (Cosme Velho) a solo metros de distancia. Con una van privada para 8 personas se resuelve todo el día sin complicaciones. Costo estimado: R$ 600–900 total (R$ 75–112 por persona). Consultar con el concierge del hotel con anticipación.
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── DÍA 3 ─── -->
+    <div class="day-card">
+      <div class="day-header dh-teal">
+        <div class="day-num">03</div>
+        <div class="day-info">
+          <h2>Centro Histórico · Lapa · Boulevard Olímpico</h2>
+          <div class="day-date">Sábado 20 de febrero</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="route-cluster">
+          🗺 <strong>Ruta del día — lógica geográfica de sur a norte, todo a pie o con VLT:</strong><br>
+          Escaleras Selarón (07:30) → Arcos da Lapa (08:15) → Bonde de Santa Teresa (08:45) → Catedral Metropolitana (10:30) → Confitería Colombo / almuerzo (12:00) → AquaRio (13:30) → Yup Star (15:30) → Museo del Mañana (16:30)
+        </div>
+
+        <div class="activity">
+          <div class="act-time">07:30</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🎨 Escaleras Selarón (Escadaria Selarón)</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Escadaria+Selaron+Lapa+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Gratis · Abiertas 24 hs</span>
+            <div class="act-note"><span class="tag tag-alert">Ir temprano — se llena después de las 09:00</span> 215 escalones con más de 2.000 azulejos de 60 países. <strong>La ventana ideal es 07:00–08:30:</strong> sin turistas y con luz perfecta para fotos. El Bonde todavía no abre a esta hora, por eso las Escaleras van primero — están a pie desde la Estación Carioca. Rua Joaquim Silva. Tiempo: 30–45 min.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">08:15</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🏛 Arcos da Lapa (Acueducto Carioca)</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Arcos+da+Lapa+acueducto+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Gratis · Exterior público</span>
+            <div class="act-note"><span class="tag tag-conf">2 min caminando desde las Escaleras</span> Acueducto del siglo XVIII, símbolo de Río. El Bonde de Santa Teresa cruza sobre sus arcos. Parada fotográfica imprescindible y en ruta perfecta hacia la Estación Carioca. Tiempo: 15 min.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">08:45</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🚃 Bonde de Santa Teresa (Tram histórico, 1896)</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Bonde+de+Santa+Teresa+bonde+amarelo+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-cost">R$ 20 · ~USD 4 por persona (ida y vuelta)</span>
+            <div class="act-note"><span class="tag tag-log">Estación Carioca · 1 min caminando desde los Arcos</span> El tranvía amarillo más antiguo de América Latina. Sale desde Largo da Carioca, cruza sobre los Arcos da Lapa y sube al barrio bohemio de Santa Teresa. <strong>Hoy es sábado — abre a las 09:00 hs.</strong> Llegar a las 08:45 para estar en fila al abrir. Pago solo en boletería de la estación. Tiempo total (viaje + exploración): ~1,5 horas.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">10:30</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">⛪ Catedral Metropolitana de São Sebastião</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Catedral+Metropolitana+Sao+Sebastiao+Rio+de+Janeiro+interior+vitrais&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Gratis · 07:00–17:00 todos los días</span>
+            <div class="act-note"><span class="tag tag-conf">5 min caminando desde la Estación Carioca</span> Pirámide cónica de 75 m de altura con cuatro enormes vitrales de colores — espectáculo de luz único. <strong>Ropa: cubrir hombros y rodillas, sin gorras.</strong> Tiempo: 30–45 min.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">12:00</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">☕ Confitería Colombo (Confeitaria Colombo, 1894)</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Confeitaria+Colombo+interior+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-pend">~R$40–80 consumición / almuerzo</span>
+            <div class="act-note"><span class="tag tag-conf">3 min caminando desde la Catedral</span> Confitería histórica de 1894. Salón Art Nouveau con enormes espejos y madera noble. Patrimonio cultural de Río. Rua Gonçalves Dias, 32. Tiempo: 45–60 min.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">13:30</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🐠 AquaRio – Acuario Marino más grande de Sudamérica</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=AquaRio+acuario+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-cost">R$ 140 anticipado · ~USD 27 · (posible descuento con entrada Cristo)</span>
+            <div class="act-note"><span class="tag tag-log">VLT Línea 1 desde Centro · Parada Utopia/AquaRio</span> 26.000 m², 4,5 millones de litros de agua, más de 350 especies. El mayor acuario marino de Sudamérica. Praça Muhammad Ali — Gamboa. Abierto todos los días 10:00–18:00. Tiempo: 1,5–2 horas.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">15:30</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🎡 Yup Star – Rueda gigante de América Latina</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Yup+Star+roda+gigante+Rio+de+Janeiro+porto+maravilha&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-cost">R$ 59 anticipado · ~USD 11 · Góndolas de 8 personas</span>
+            <div class="act-note"><span class="tag tag-conf">Al lado del AquaRio · misma cuadra</span> 88 m de altura, 54 góndolas climatizadas para 8 personas. Vista del Cristo, Pan de Azúcar, Bahía y puente Río-Niterói. Horario: 10:00–18:00. <strong>¡El grupo ocupa una góndola completa!</strong> Tiempo: 30–45 min.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">16:30</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🔭 Museo del Mañana (Museu do Amanhã)</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Museu+do+Amanha+Museum+Tomorrow+Rio+de+Janeiro+Calatrava&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-cost">R$ 40 · ~USD 8 · Martes entrada gratis</span>
+            <div class="act-note"><span class="tag tag-log">500 m del AquaRio caminando sobre el bulevar</span> Museo de ciencias futurista diseñado por Santiago Calatrava. Praça Mauá, 1. Horario: Jue–Mar 10:00–18:00 (<strong>cerrado lunes</strong>). Última entrada 17:00 hs. Tiempo: 1,5–2 horas.</div>
+          </div>
+        </div>
+
+        <div class="day-note">
+          <strong>💡 Transporte Día 3:</strong> Uber desde Barra al Centro (~40 min, ~R$50). Toda la ruta Lapa–Catedral–Colombo es caminable. Luego un VLT desde el Centro hasta el Boulevard Olímpico. Retorno en Uber desde el Museo del Mañana.
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── DÍA 4 ─── -->
+    <div class="day-card">
+      <div class="day-header dh-amber">
+        <div class="day-num">04</div>
+        <div class="day-info">
+          <h2>Jardín Botánico · Ipanema · Leblon</h2>
+          <div class="day-date">Domingo 21 de febrero</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="route-cluster">
+          🗺 <strong>Ruta sugerida:</strong> Jardín Botánico (08:30) → Playa de Ipanema (11:00) → Almuerzo en Ipanema/Leblon (~13:30) → Tarde libre · Lagoa Rodrigo de Freitas al atardecer (opcional)
+        </div>
+
+        <div class="activity">
+          <div class="act-time">08:30</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🌿 Jardín Botánico de Río de Janeiro</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Jardim+Botanico+Rio+de+Janeiro+palmeiras+imperiais&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-cost">R$ 15 · ~USD 3 por persona</span>
+            <div class="act-note"><span class="tag tag-conf">Abierto domingos</span> Fundado en 1808 por Dom João VI. 54 hectáreas, más de 6.500 especies. La avenida de palmeras imperiales es una de las postales más icónicas de Río. Rua Jardim Botânico, 1008. Horario: Mar–Dom 08:00–18:00. Tiempo: 1,5–2 horas.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">11:00</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🏖 Playa de Ipanema + Leblon</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Praia+de+Ipanema+Leblon+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Gratis · Sillas ~R$ 20/persona en alquiler</span>
+            <div class="act-note"><span class="tag tag-libre">Día de playa</span> Las playas más famosas del mundo. Ambiente carioca vibrante, quiosques de coco y açaí, vista al Morro Dois Irmãos. Mañana y tarde de playa.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">~13:30</div>
+          <div class="act-body">
+            <div class="act-name">🍽 Almuerzo en Ipanema o Leblon</div>
+            <span class="act-price ap-pend">~R$60–120 por persona · A definir</span>
+            <div class="act-note"><span class="tag tag-pend">Restaurante a confirmar</span> Zona con excelentes restaurantes. Reservar para 8 personas con anticipación.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">~17:00</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🌅 Atardecer en Lagoa Rodrigo de Freitas (opcional)</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Lagoa+Rodrigo+de+Freitas+atardecer+Cristo+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Gratis</span>
+            <div class="act-note"><span class="tag tag-libre">Libre</span> Laguna natural con el Cristo de fondo al atardecer. Paseo a pie o en bicicleta. 10 min en coche desde Ipanema.</div>
+          </div>
+        </div>
+
+        <div class="day-note"><strong>💡 Día 4 abierto:</strong> La tarde/noche del domingo está disponible para completar. Opciones: Maracaná (~R$85), paseo náutico por la Bahía, segunda noche en Lapa, o Copacabana. Definir en la próxima sesión.</div>
+      </div>
+    </div>
+
+    <!-- ─── DÍA 5 ─── -->
+    <div class="day-card">
+      <div class="day-header dh-slate">
+        <div class="day-num">05</div>
+        <div class="day-info">
+          <h2>Real Gabinete + Confitería Colombo + Copacabana</h2>
+          <div class="day-date">Lunes 22 de febrero</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="route-cluster">
+          🗺 <strong>Ruta del día:</strong> Real Gabinete de Leitura (10:00) → Confitería Colombo (11:00) → Playa de Copacabana (~12:30) → Tarde/Noche a definir
+        </div>
+
+        <div class="activity">
+          <div class="act-time">10:00</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">📚 Real Gabinete Portugués de Leitura</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Real+Gabinete+Portugues+de+Leitura+interior+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Gratis · Lun–Vie 10:00–17:00</span>
+            <div class="act-note"><span class="tag tag-conf">Solo abre días de semana</span> Biblioteca neogótica de 1887, una de las más bellas del mundo. Más de 350.000 libros. Rua Luís de Camões, 30, Centro. Tiempo: 20–30 min.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">11:00</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">☕ Confitería Colombo – segunda visita o primera si no se fue el Día 3</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Confeitaria+Colombo+interior+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-pend">~R$40–80 consumición</span>
+            <div class="act-note"><span class="tag tag-conf">5 min caminando del Gabinete</span> El Real Gabinete y la Confitería Colombo están a 5 min caminando — son el circuito natural del Centro histórico en días de semana. Rua Gonçalves Dias, 32.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">~12:30</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🏖 Playa de Copacabana + Calçadão</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Praia+de+Copacabana+calcadao+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Gratis</span>
+            <div class="act-note"><span class="tag tag-libre">Libre</span> La playa más famosa del mundo. Mosaico de calzada icónico, ambiente festivo, quiosques. 15 min del Centro en metro.</div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="act-time">Tarde</div>
+          <div class="act-body">
+            <div class="act-name">✦ Tarde/Noche del Día 5 – A definir</div>
+            <span class="act-price ap-pend">Pendiente de decisión</span>
+            <div class="act-note"><span class="tag tag-pend">Pendiente</span> Opciones: Maracaná (~R$85), paseo náutico por la Bahía, segunda noche en Lapa, o shopping en Barra.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── DÍA 6 ─── -->
+    <div class="day-card">
+      <div class="day-header dh-azul">
+        <div class="day-num">06</div>
+        <div class="day-info">
+          <h2>Última mañana · Check-out · Regreso a Foz</h2>
+          <div class="day-date">Martes 23 de febrero · Vuelo 21:10 hs</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="act-time">Mañana</div>
+          <div class="act-body">
+            <div class="act-top-row">
+              <div class="act-name">🌅 Mañana libre – Última playa o souvenirs</div>
+              <a class="btn-foto" href="https://www.google.com/search?q=Barra+da+Tijuca+praia+Rio+de+Janeiro&tbm=isch" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                Ver fotos
+              </a>
+            </div>
+            <span class="act-price ap-gratis">Libre</span>
+            <div class="act-note"><span class="tag tag-libre">Libre</span> Última playa en Barra, compras de souvenirs o paseo tranquilo por el barrio antes del regreso.</div>
+          </div>
+        </div>
+        <div class="activity">
+          <div class="act-time">~18:00</div>
+          <div class="act-body">
+            <div class="act-name">🚌 Traslado al aeropuerto + ✈ Vuelo RIO → FOZ · Llegada 23:35</div>
+            <span class="act-price ap-gratis">Traslado incluido en paquete</span>
+            <div class="act-note"><span class="tag tag-conf">✔ Incluido</span> Salida del hotel máximo 18:00 hs. Vuelo 21:10. Llegada a Foz 23:35 hs.</div>
+          </div>
+        </div>
+        <div class="day-note"><strong>⚠ Horario límite:</strong> El día útil termina a las ~18:00 hs. No programar actividades que finalicen después de esa hora.</div>
+      </div>
+    </div>
+
+  </div><!-- /days-grid -->
+
+  <!-- TABLA PRECIOS -->
+  <section class="cost-section">
+    <h2 class="section-title">Resumen de precios por atracción</h2>
+    <p style="font-size:13.5px;color:var(--gris);margin-bottom:18px;">Precios orientativos. Tipo de cambio aproximado: 1 USD ≈ R$ 5,10. Confirmar al reservar.</p>
+    <table class="cost-table">
+      <thead><tr><th>Atracción</th><th>Precio / persona</th><th>Total 8 personas</th><th>Observación</th></tr></thead>
+      <tbody>
+        <tr><td>🌄 Mirante Dona Marta</td><td><span class="cost-free">GRATIS</span></td><td><span class="cost-free">GRATIS</span></td><td>Acceso en coche por Cosme Velho.</td></tr>
+        <tr><td>✝ Cristo Redentor</td><td class="cost-price">~USD 17</td><td class="cost-price">~USD 136</td><td>Reservar anticipado. Posible descuento AquaRio.</td></tr>
+        <tr><td>🚠 Pan de Azúcar</td><td class="cost-price">R$ 185 · ~USD 36</td><td class="cost-price">~USD 288</td><td>Acceso Rápido: R$ 285. Reservar en bondinho.com.br</td></tr>
+        <tr><td>🎨 Escaleras Selarón</td><td><span class="cost-free">GRATIS</span></td><td><span class="cost-free">GRATIS</span></td><td>Abiertas 24 hs. Mejor 07:00–08:30.</td></tr>
+        <tr><td>🏛 Arcos da Lapa</td><td><span class="cost-free">GRATIS</span></td><td><span class="cost-free">GRATIS</span></td><td>Exterior público.</td></tr>
+        <tr><td>🚃 Bonde de Santa Teresa</td><td class="cost-price">R$ 20 · ~USD 4</td><td class="cost-price">~USD 32</td><td>Ida y vuelta. Pago solo en Estación Carioca.</td></tr>
+        <tr><td>⛪ Catedral Metropolitana</td><td><span class="cost-free">GRATIS</span></td><td><span class="cost-free">GRATIS</span></td><td>07:00–17:00 todos los días.</td></tr>
+        <tr><td>📚 Real Gabinete de Leitura</td><td><span class="cost-free">GRATIS</span></td><td><span class="cost-free">GRATIS</span></td><td>Solo Lun–Vie 10:00–17:00. Día 5.</td></tr>
+        <tr><td>☕ Confitería Colombo</td><td class="cost-price">~R$ 40–80 consumición</td><td class="cost-price">~R$ 320–640</td><td>No es entrada — es consumición libre.</td></tr>
+        <tr><td>🐠 AquaRio</td><td class="cost-price">R$ 140 anticipado · ~USD 27</td><td class="cost-price">~USD 216</td><td>Posible descuento comprando con entrada Cristo.</td></tr>
+        <tr><td>🎡 Yup Star</td><td class="cost-price">R$ 59 anticipado · ~USD 11</td><td class="cost-price">~USD 88</td><td>Góndolas de 8 — grupo completo en una sola.</td></tr>
+        <tr><td>🔭 Museo del Mañana</td><td class="cost-price">R$ 40 · ~USD 8</td><td class="cost-price">~USD 64</td><td>Martes gratis. Cerrado lunes.</td></tr>
+        <tr><td>🌿 Jardín Botánico</td><td class="cost-price">R$ 15 · ~USD 3</td><td class="cost-price">~USD 24</td><td>Mar–Dom 08:00–18:00.</td></tr>
+        <tr><td>🏖 Playas (Barra, Ipanema, Copa)</td><td><span class="cost-free">GRATIS</span></td><td><span class="cost-free">GRATIS</span></td><td>Sillas/sombrilla ~R$ 20/pers. en alquiler.</td></tr>
+        <tr style="background:#FFFBEA"><td><strong>💰 TOTAL ESTIMADO ENTRADAS</strong></td><td class="cost-total"><strong>~USD 106–120</strong></td><td class="cost-total"><strong>~USD 848–960</strong></td><td>Sin comidas, transporte ni souvenirs.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- EQUIPAJE -->
+  <section class="eq-section">
+    <h2 class="section-title">Equipaje recomendado</h2>
+    <p style="font-size:13.5px;color:var(--gris);margin-bottom:18px;">Febrero = verano pleno: 33–40 °C, humedad alta, lluvias vespertinas breves. Paquete: 1 artículo personal + maleta de mano hasta 10 kg.</p>
+    <div class="eq-grid">
+      <div class="eq-cat"><h4>🌞 Protección solar</h4><ul><li>Bloqueador FPS 50+ cara y cuerpo</li><li>Lentes de sol filtro UV</li><li>Sombrero o gorra ala ancha</li><li>Ropa ligera de cobertura mediodía</li><li>Bálsamo labial con FPS</li></ul></div>
+      <div class="eq-cat"><h4>👙 Playa y ciudad</h4><ul><li>2 trajes de baño mínimo</li><li>Pareo o toalla compacta</li><li>Sandalia tipo Havaianas</li><li>Zapatillas cómodas (escaleras, bonde)</li><li>Ropa liviana algodón/lino</li></ul></div>
+      <div class="eq-cat"><h4>🎒 Esenciales</h4><ul><li>Repelente DEET/icaridina (febrero)</li><li>Botiquín: ibuprofeno, antidiarreicos</li><li>Adaptador tipo N (Brasil)</li><li>Power bank cargado</li><li>Mochila pequeña para salidas</li><li>Copia de documentos en el celular</li></ul></div>
+      <div class="eq-cat"><h4>⛪ Turismo cultural</h4><ul><li>Ropa que cubra hombros y rodillas</li><li>Sin gorras en iglesias</li><li>Calzado cerrado para caminar</li><li>Agua (al menos 1L por persona)</li><li>Snacks ligeros para días largos</li></ul></div>
+      <div class="eq-cat"><h4>📷 Mirantes y madrugadas</h4><ul><li>Cámara/celular con memoria libre</li><li>Abrigo ligero (amanecer más fresco)</li><li>Calzado cerrado para subidas</li><li>Cargador de celular extra</li></ul></div>
+    </div>
+  </section>
+
+  <!-- PENDIENTES -->
+  <section class="pending-section">
+    <h2 class="section-title">Por confirmar · Ideas pendientes</h2>
+    <div class="pending-list">
+      <div class="pending-item"><div class="pending-icon">🏟</div><div><h4>Estadio Maracaná</h4><p>El estadio más emblemático del fútbol mundial. Tour guiado todos los días, ~R$ 85 (~USD 17). Queda en ruta entre Barra y el Centro — ideal para el Día 4 o 5. Tiempo: ~1,5 horas.</p></div></div>
+      <div class="pending-item"><div class="pending-icon">🚤</div><div><h4>Paseo náutico por la Bahía de Guanabara</h4><p>Tour en barco con vista al Cristo, Pan de Azúcar y la costa. Chárter privado para 8 personas. ~R$ 150–250 por persona. Días 4 o 5. Reservar con bastante anticipación.</p></div></div>
+      <div class="pending-item"><div class="pending-icon">🌅</div><div><h4>Atardecer en Lagoa Rodrigo de Freitas</h4><p>Laguna natural en la Zona Sur. Paseo gratuito al atardecer con el Cristo de fondo. Perfecto como cierre del Día 4.</p></div></div>
+      <div class="pending-item"><div class="pending-icon">🏘</div><div><h4>Tour en favela con guías turísticos</h4><p>Experiencia cultural auténtica dentro de una de las comunidades más famosas de Río — generalmente la Favela Santa Marta (la primera favela pacificada de Brasil, en el cerro de Botafogo, con vista al Cristo) o la Rocinha (la más grande de Sudamérica). Los tours siempre deben hacerse con guías locales certificados, que son residentes de la propia comunidad: esto garantiza seguridad, respeto con los vecinos y un relato genuino de la vida carioca que ningún otro tour ofrece. Duración: ~2 horas. Precio estimado: R$ 80–150 por persona. Encaja perfectamente en el Día 2 por la tarde (queda en la ruta de bajada del Corcovado hacia Botafogo) o en el Día 4 combinado con el Jardín Botánico e Ipanema. <strong>Importante:</strong> reservar con anticipación y solo con operadores reconocidos como Favela Santa Marta Tour o Rio Natural Ecotourism.</p></div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>🇧🇷 Itinerario en construcción · <strong>Última actualización: 26 de agosto de 2026</strong></p>
+  <p style="margin-top:6px;font-size:11px;">Precios orientativos — confirmar disponibilidad y reservas con anticipación para grupos de 8 personas. ⚠ Carnaval 2027: 13–18 febrero — el grupo llega el último día de Carnaval; prever mayor afluencia y tráfico al llegar.</p>
+</footer>
+
+</body>
+</html>
